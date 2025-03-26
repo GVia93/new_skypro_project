@@ -102,3 +102,16 @@ def test_product_price_setter():
     product.price = 0
     assert product.price == 500.0
     product.price = -100
+
+
+def test_add_product_invalid():
+    """
+    Тест добавления не корректного объекта.
+    """
+    category = Category(
+        "test",
+        "test",
+        [],
+    )
+    with pytest.raises(TypeError, match="Не корректный объект"):
+        category.add_product("test")

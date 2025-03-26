@@ -86,10 +86,13 @@ class Category:
         """
         return len(self.__products)
 
+
     def add_product(self, new_product: Product) -> None:
         """
         Добавляет новый продукт в категорию.
         """
+        if not isinstance(new_product, Product):
+            raise TypeError("Не корректный объект")
         self.__products.append(new_product)
 
     @property
