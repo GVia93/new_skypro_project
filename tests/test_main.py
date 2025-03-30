@@ -40,7 +40,7 @@ def test_init_category(products):
         products,
     )
     assert category.name == "Смартфоны"
-    assert len(category.products) == 3
+    assert len(category.product_list) == 3
     assert category.description.startswith("Смартфоны, как средство")
 
 
@@ -55,3 +55,63 @@ def test_category_count():
         [],
     )
     assert Category.category_count == start_count + 1
+
+
+def test_add_product(products):
+    """
+    Тестирует добавление продукта в категорию.
+    """
+    category = Category("Смартфоны", "Описание", products)
+    new_product = Product("test", "test", 12345.0, 3)
+    category.add_product(new_product)
+    assert new_product in category.product_list
+    assert category.product_count == 4
+
+
+def test_new_product():
+    """
+    Тестирует создание продукта с использованием класса-метода new_product.
+    """
+    data = {"name": "test", "description": "test", "price": 12345.0, "quantity": 3}
+    product = Product.new_product(data)
+    assert product.name == "test"
+    assert product.description == "test"
+    assert product.price == 12345.0
+    assert product.quantity == 3
+
+
+def test_category_products_output(products):
+    """
+    Тестирует вывод списка продуктов категории.
+    """
+    category = Category("Смартфоны", "Описание", products)
+    output = category.products
+    for product in products:
+        assert product.name in output
+        assert str(product.price) in output
+        assert str(product.quantity) in output
+
+
+def test_product_price_setter():
+    """
+    Тестирует setter для price с проверкой валидации.
+    """
+    product = Product("test", "test", 12345.0, 3)
+    product.price = 500.0
+    assert product.price == 500.0
+    product.price = 0
+    assert product.price == 500.0
+    product.price = -100
+
+
+def test_add_product_invalid():
+    """
+    Тест добавления не корректного объекта.
+    """
+    category = Category(
+        "test",
+        "test",
+        [],
+    )
+    with pytest.raises(TypeError, match="Не корректный объект"):
+        category.add_product("test")
