@@ -35,3 +35,8 @@ exclude = ".git"
 
 [tool.isort]
 line_length = 119
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "--cov=main --cov-report=term-missing"
+testpaths = ["tests"]
