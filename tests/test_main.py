@@ -12,6 +12,39 @@ def products():
     ]
 
 
+@pytest.fixture
+def category(products):
+    return Category(
+        "Смартфоны",
+        "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
+        products,
+    )
+
+
+def test_category_str(category):
+    """
+    Тестирует строковое представление объекта Category.
+    """
+    expected = "Смартфоны, количество продуктов: 3 шт."
+    assert str(category) == expected
+
+
+def test_product_str(products):
+    """
+    Тестирует строковое представление объекта Products.
+    """
+    expected = "Iphone 15, 210000.0 руб. Остаток: 8 шт."
+    assert str(products[1]) == expected
+
+
+def test_product_add(products):
+    """
+    Тестирует оператор сложения для объектов Product.
+    """
+    result = products[1] + products[2]
+    assert result == 2114000.0
+
+
 def test_init_product(products):
     """
     Тестирует корректность инициализации объектов класса Product.
@@ -30,15 +63,10 @@ def test_product_count(products):
     assert Product.product_count == start_count + 1
 
 
-def test_init_category(products):
+def test_init_category(products, category):
     """
     Тестирует корректность инициализации объектов класса Category.
     """
-    category = Category(
-        "Смартфоны",
-        "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
-        products,
-    )
     assert category.name == "Смартфоны"
     assert len(category.product_list) == 3
     assert category.description.startswith("Смартфоны, как средство")
@@ -57,11 +85,10 @@ def test_category_count():
     assert Category.category_count == start_count + 1
 
 
-def test_add_product(products):
+def test_add_product(products, category):
     """
     Тестирует добавление продукта в категорию.
     """
-    category = Category("Смартфоны", "Описание", products)
     new_product = Product("test", "test", 12345.0, 3)
     category.add_product(new_product)
     assert new_product in category.product_list
@@ -80,11 +107,10 @@ def test_new_product():
     assert product.quantity == 3
 
 
-def test_category_products_output(products):
+def test_category_products_output(products, category):
     """
     Тестирует вывод списка продуктов категории.
     """
-    category = Category("Смартфоны", "Описание", products)
     output = category.products
     for product in products:
         assert product.name in output
@@ -104,14 +130,9 @@ def test_product_price_setter():
     product.price = -100
 
 
-def test_add_product_invalid():
+def test_add_product_invalid(category):
     """
     Тест добавления не корректного объекта.
     """
-    category = Category(
-        "test",
-        "test",
-        [],
-    )
     with pytest.raises(TypeError, match="Не корректный объект"):
         category.add_product("test")
