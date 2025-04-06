@@ -1,6 +1,6 @@
 import pytest
 
-from main import Category, Product, Smartphone
+from main import Category, Product, Smartphone, LawnGrass
 
 
 @pytest.fixture
@@ -150,3 +150,16 @@ def test_smartphone_attribute():
     assert smartphone.model == "S23 Ultra"
     assert smartphone.memory == 256
     assert smartphone.color == "Серый"
+
+
+def test_lawngrass_attribute():
+    """ Тестирует корректность атрибутов класса LawnGrass. """
+    grass = LawnGrass("Газонная трава", "Элитная трава для газона", 500.0,
+                      20, "Россия", "7 дней", "Зеленый")
+    assert grass.name == "Газонная трава"
+    assert grass.description == "Элитная трава для газона"
+    assert grass.price == 500.0
+    assert grass.quantity == 20
+    assert grass.country == "Россия"
+    assert grass.germination_period == "7 дней"
+    assert grass.color == "Зеленый"
