@@ -163,3 +163,13 @@ def test_lawngrass_attribute():
     assert grass.country == "Россия"
     assert grass.germination_period == "7 дней"
     assert grass.color == "Зеленый"
+
+
+def test_invalid_sum():
+    """
+    Тестирует, что при сложении Smartphone и LawnGrass вызывается исключение TypeError.
+    """
+    smartphone1 = Smartphone("Iphone 15", "512GB, Gray space", 210000.0, 8, 98.2, "15", 512, "Gray space")
+    grass1 = LawnGrass("Газонная трава", "Элитная трава для газона", 500.0, 20, "Россия", "7 дней", "Зеленый")
+    with pytest.raises(TypeError):
+        _ = smartphone1 + grass1
