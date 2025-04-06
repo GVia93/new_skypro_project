@@ -1,6 +1,6 @@
 import pytest
 
-from main import Category, Product
+from main import Category, Product, Smartphone
 
 
 @pytest.fixture
@@ -136,3 +136,17 @@ def test_add_product_invalid(category):
     """
     with pytest.raises(TypeError, match="Не корректный объект"):
         category.add_product("test")
+
+
+def test_smartphone_attribute():
+    """ Тестирует корректность атрибутов класса Smartphone. """
+    smartphone = Smartphone("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5, 95.5,
+                         "S23 Ultra", 256, "Серый")
+    assert smartphone.name == "Samsung Galaxy S23 Ultra"
+    assert smartphone.description == "256GB, Серый цвет, 200MP камера"
+    assert smartphone.price == 180000.0
+    assert smartphone.quantity == 5
+    assert smartphone.efficiency == 95.5
+    assert smartphone.model == "S23 Ultra"
+    assert smartphone.memory == 256
+    assert smartphone.color == "Серый"
