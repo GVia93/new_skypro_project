@@ -154,7 +154,7 @@ class Smartphone(Product):
         """
         Складывает продукты класса Smartphone.
         """
-        if isinstance(other, Smartphone):
+        if type(other) is Smartphone:
             return self.price + other.price
         raise TypeError
 
@@ -181,7 +181,7 @@ class LawnGrass(Product):
         """
         Складывает продукты класса LawnGrass.
         """
-        if isinstance(other, LawnGrass):
+        if type(other) is LawnGrass:
             return self.price + other.price
         raise TypeError
 

@@ -190,3 +190,70 @@ def test_lawngrass_addition_invalid():
     grass1 = LawnGrass("Газонная трава", "Элитная трава для газона", 500.0, 20, "Россия", "7 дней", "Зеленый")
     with pytest.raises(TypeError):
         _ = grass1 + "Not a product"
+
+
+def test_category_product_list(category, products):
+    """
+    Проверяет возвращаемый список продуктов.
+    """
+    assert category.product_list == products
+
+
+def test_smartphone_str():
+    """
+    Тестирует строковое представление объекта Smartphone, унаследованное от Product.
+    """
+    smartphone1 = Smartphone("Iphone 15", "512GB, Gray space", 210000.0, 8, 98.2, "15", 512, "Gray space")
+    assert str(smartphone1) == "Iphone 15, 210000.0 руб. Остаток: 8 шт."
+
+
+def test_lawngrass_str():
+    """
+    Тестирует строковое представление объекта LawnGrass, унаследованное от Product.
+    """
+    grass1 = LawnGrass("Газонная трава", "Элитная трава для газона", 500.0, 20, "Россия", "7 дней", "Зеленый")
+    assert str(grass1) == "Газонная трава, 500.0 руб. Остаток: 20 шт."
+
+
+def test_new_product_missing_fields():
+    """
+    Тестирует создание продукта через new_product с неполным набором данных.
+    Ожидается исключение KeyError при отсутствии обязательных ключей.
+    """
+    with pytest.raises(KeyError):
+        Product.new_product({"name": "A", "description": "B"})
+
+
+def test_add_non_product_to_category():
+    """
+    Тестирует добавление объекта, не являющегося продуктом, в категорию.
+    Ожидается исключение TypeError.
+    """
+    category = Category("Test Category", "Test Description", [])
+    with pytest.raises(TypeError, match="Не корректный объект"):
+        category.add_product("Not a product")
+
+
+def test_add_same_class_product(products):
+    """
+    Тестирует сложение двух продуктов одного класса.
+    Ожидается корректная сумма цен с учетом количества.
+    """
+    result = products[0] + products[1]
+    assert result == 2580000.0
+
+
+def test_add_product_inherited_class():
+    """
+    Тестирует добавление объекта наследника в категорию.
+    Ожидается корректное добавление и вывод.
+    """
+    smartphone = Smartphone("Iphone 15", "512GB, Gray space", 210000.0, 8, 98.2, "15", 512, "Gray space")
+    grass = LawnGrass("Газонная трава", "Элитная трава для газона", 500.0, 20, "Россия", "7 дней", "Зеленый")
+
+    category = Category("Test Category", "Test Description", [smartphone])
+    category.add_product(grass)
+
+    assert smartphone in category.product_list
+    assert grass in category.product_list
+    assert category.product_count == 2
