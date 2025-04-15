@@ -21,6 +21,14 @@ def category(products):
     )
 
 
+def test_product_zero_quantity_rise():
+    """
+    Проверяет, что при создании товара с quantity=0 возникает ValueError.
+    """
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен."):
+        Product("Бракованный товар", "Неверное количество", 1000.0, 0)
+
+
 def test_category_str(category):
     """
     Тестирует строковое представление объекта Category.
