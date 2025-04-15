@@ -257,3 +257,12 @@ def test_add_product_inherited_class():
     assert smartphone in category.product_list
     assert grass in category.product_list
     assert category.product_count == 2
+
+
+def test_init_logger_mixin_output(capfd):
+    """
+    Проверяет, что миксин InitLoggerMixin печатает информацию при создании объекта Product.
+    """
+    _ = Product("Продукт1", "Описание продукта", 1200.0, 10)
+    out, _ = capfd.readouterr()
+    assert "Product создан: Product('Продукт1', 'Описание продукта', 1200.0, 10)" in out
