@@ -21,6 +21,29 @@ def category(products):
     )
 
 
+def test_category_middle_price(category):
+    """
+    Тест корректности расчета средней цены товаров в категории.
+    """
+    assert category.middle_price() == 140333.33333333334
+
+
+def test_category_average_price_empty():
+    """
+    Тестирует, что для пустой категории возвращается 0.0, без ошибки.
+    """
+    category = Category("Пустая", "Нет товаров", [])
+    assert category.middle_price() == 0.0
+
+
+def test_product_zero_quantity_rise():
+    """
+    Проверяет, что при создании товара с quantity=0 возникает ValueError.
+    """
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен."):
+        Product("Бракованный товар", "Неверное количество", 1000.0, 0)
+
+
 def test_category_str(category):
     """
     Тестирует строковое представление объекта Category.
